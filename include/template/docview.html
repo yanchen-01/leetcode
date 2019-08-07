@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Document: API-V{%$smarty.get.version%}-{%$docs->classname%}->{%$docs->name%}({%$docs->paramStr|default:''%})</title>
+<style>
+	body{font-size:14px;padding:0px 10px;}
+	table{width:100%;align:center;clear:both;}
+	th{padding:2px 3px;background-color:#CCC;}
+	tr:hover{background-color: #F3F3F3;}
+	td,th{padding:2px 3px;text-align: left; border-bottom:1px solid #e5e5e5;}
+	p{margin:2px;padding:2px;}
+	a {text-decoration: underline;color:blue;}
+	a:hover {text-decoration: none;}
+	div{margin:35px auto 5px auto;text-align:left;}
+	pre{background-color: #F3F3F3;margin:5px 0px;padding:5px;}
+</style>
+</head>
+<body>
+<h1><a href="{%$docs->document%}">HOME</a> >> {%$docs->access%}</h1>
+<pre style="font-size:16px;">{%$docs->description|default:"No description for this function."%}</pre>
+<br>
+
+<h3>Request URI Parameters</h3>
+{%if !empty($docs->request->get)%}
+<table>
+    <thead>
+        <tr>
+        <th width="20%">Name</th>
+        <th>Description</th>
+        <th width="10%">Type</th>
+        <th width="20%"><p>Default</p></th>
+        </tr>
+    </thead>
+    
+    <tbody>
+    	{%foreach from=$docs->request->get item=val%}
+        <tr>
+            <td>{%$val->name%}</td>
+            <td>
+                <p>{%$val->description|default:'Null'%}</p>
+            </td>
+            <td>{%$val->type%}</td>
+            <td>{%$val->default|default:'<i>Required</i>'%}</td>
+        </tr>
+        {%/foreach%}
+	</tbody>
+</table>
+{%else%}
+<pre>Not Available.</pre>
+{%/if%}
+<br>
+
+<h3>Request Body Parameters</h3>
+{%if !empty($docs->request->post)%}
+<table>
+    <thead>
+        <tr>
+        <th width="20%">Name</th>
+        <th>Description</th>
+        <th width="10%">Type</th>
+        <th width="20%"><p>Default</p></th>
+        </tr>
+    </thead>
+    
+    <tbody>
+    	{%foreach from=$docs->request->post item=val%}
+        <tr>
+            <td>{%$val->name%}</td>
+            <td>
+                <p>{%$val->description|default:'Null'%}</p>
+            </td>
+            <td>{%$val->type%}</td>
+            <td>{%if isset($val->default)%}{%$val->default%}{%else%}<i>Required</i>{%/if%}</td>
+        </tr>
+        {%/foreach%}
+	</tbody>
+</table>
+{%else%}
+<pre>Not Available.</pre>
+{%/if%}
+<br>
+
+<h3>Response Information</h3>
+<hr>
+{%if !empty($docs->response)%}
+{%foreach from=$docs->response item=val%}
+<pre>{%$val%}</pre>
+{%/foreach%}
+{%else%}
+<pre>Not Available.</pre>
+{%/if%}
+
+
+<h3>Response Formats</h3>
+{%if !empty($docs->formats)%}
+{%foreach from=$docs->formats item=format%}
+<table>
+    <thead>
+        <tr>
+        <th width="20%">Name</th>
+        <th width="10%">Type</th>
+        <th>Description</th>
+        <th>Demo</th>
+        </tr>
+    </thead>
+    
+    <tbody>
+    	{%foreach from=$format item=val%}
+        <tr>
+            <td>{%$val->name%}</td>
+            <td>{%$val->type%}</td>
+            <td>
+                <p>{%$val->description|default:'Null'%}</p>
+            </td>
+            <td>
+            	<p>{%$val->demo|default:''%}</p>
+			</td>
+        </tr>
+        {%/foreach%}
+	</tbody>
+</table>
+<br>
+{%/foreach%}
+{%else%}
+<pre>Not Available.</pre>
+{%/if%}
+<br>
+
+
+<div>
+	API Version {%$smarty.get.version%} {%$docs->classname%}->{%$docs->name%}({%$docs->paramStr|default:''%}); Last modified {%$docs->lastmodify|date_format:"%m/%d/%Y %H:%M"%}
+	[<a href="{%$docs->document%}">Go Back</a>]
+</div>
+
+</body>
+</html>

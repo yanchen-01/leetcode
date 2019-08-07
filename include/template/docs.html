@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Document: API-V{%$smarty.get.version%}-{%$docs->name%}</title>
+<style>
+	body{font-size:14px;padding:0px 10px;}
+	table{width:100%;align:center;clear:both;}
+	th{padding:2px 3px;background-color:#CCC;}
+	tr:hover{background-color: #F3F3F3;}
+	td,th{padding:2px 3px;text-align: left; border-bottom:1px solid #e5e5e5;}
+	p{margin:2px;padding:2px;}
+	a {text-decoration: none;color:blue;}
+	a:hover {text-decoration: underline;}
+	div{margin:5px auto;text-align:left;}
+	pre{background-color: #F3F3F3;margin:5px 0px;padding:5px;}
+</style>
+</head>
+<body>
+<h1>{%$docs->access%}</h1>
+<pre style="font-size:16px;">{%$docs->description%}</pre>
+<br>
+
+<table>
+    <thead>
+        <tr><th>API</th><th><p>Description</p></th></tr>
+    </thead>
+    
+    <tbody>
+    	{%foreach from=$docs->public_method item=val%}
+        <tr>
+            <td><a href="{%$val->url%}">{%$val->access%}</a></td>
+            <td>
+                <p>{%$val->description|default:'Null'%}</p>
+            </td>
+        </tr>
+        {%/foreach%}
+	</tbody>
+</table>
+
+<br>
+<div>API Version {%$smarty.get.version%} {%$docs->name%}: Last modified  {%$docs->lastmodify|date_format:"%m/%d/%Y %H:%M"%}</div>
+</body>
+</html>

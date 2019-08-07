@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SVN 同步设置</title>
+	<style>
+		.post{
+			float:left;
+			width:auto;
+			margin: 0px auto 0px auto; 
+			padding: 0px;			
+		}
+		#content{
+			margin: 0px auto 0px auto; 
+			padding: 0px 20px 0px 20px;
+		}
+		hr{
+			width:99%;
+		}
+		strong{
+			color:red;
+		}
+	</style>	
+	<script type=text/javascript>
+	var unlock=false;
+	
+	function checkfrom(){
+		if(document.getElementById('parent').value==""){
+			window.alert("请选择要同步的父目录");
+			return false;
+		}else if(isNaN(document.getElementById("version").value)){
+			window.alert('版本信息必须是数字！');
+            document.getElementById("version").select();
+            document.getElementById("version").focus();
+            return false;
+		}else if(document.getElementById('path').value==""||document.getElementById('path').value=="/"){
+			if(checkclick("确认同步整个 ‘"+getParentPath(document.getElementById('parent').value)+"’ 目录么？")){
+				return true;
+			}else{
+				document.getElementById('parent').focus;
+				return false;
+			}
+		}else{
+			return true;
+		}	
+	}
+	function getParentPath(pathinfo){
+		if(pathinfo=='.'){
+			return "站点根目录";
+		}
+		return pathinfo;
+	}
+	function checkclick(msg){
+	    if (confirm(msg)) {
+	        return true;
+	    }
+	    else {
+	        return false;
+	    }
+	}
+	</script>
+	<style>
+		#box{
+			width:98%;
+			height:24px;		
+			padding:5px;
+			margin:0px auto 6px auto;			
+			line-height:24px;
+			clear:both;
+		}
+		input,select,span,div{
+			font-size:12px;
+		}
+	</style>
+	<link href="/css/admin/basic.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/admin/green.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+	<div id="top">
+	  <table width="100%" height="30" border="0" cellpadding="0" cellspacing="0" class="dhbg">
+	    <tr>
+	      <td align="left">&nbsp;&nbsp;<span class="whitelink">版本同步</span></td>
+	      <td align="right" class="whitestyle">&nbsp;&nbsp;</td>
+	    </tr>
+	  </table>
+	  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="bline">
+	    <tr>
+	      <td><table width="98%" border="0" align="center" cellpadding="0" cellspacing="0">
+	          <tr>
+	            <td height="24">您的位置：>> 版本同步 >> 服务器 {%$servername%}</td>
+	            <td align="right"></td>
+	          </tr>
+	        </table></td>
+	    </tr>
+	  </table>
+	  <table width="100%" height="6"  border="0" align="center" cellpadding="0" cellspacing="0">
+	    <tr>
+	      <td></td>
+	    </tr>
+	  </table>
+	</div>
+	
+	<div id='box'>
+		<form name="svn" class="post" id="post" method="post" action="{%$scriptname%}?server={%$servername%}" onsubmit="return checkfrom();">	
+			<span style="float:left;"><strong>{%$servername%}</strong> 
+			
+			SVN 同步设置:</span>
+			<select name="parent" id="parent">
+				<option value="">请选择目录</option>
+				{%foreach from=$target item=v%}
+					<option value="{%$v%}" {%if $parent|default:''==$v%}selected{%/if%}>{%$v%}</option>
+				{%/foreach%}
+			</select> 			
+			<input type="text" name="path" id="path" value="{%$path|default:''%}" size="35" title="要更新的目标文件"/> 
+			<input type="text" name="version" id="version" value="{%$version|default:''%}" size="5" title="目标版本，留空为最新版本"/>
+			&nbsp;发布到生产环境：<input type="checkbox" name="publish" value="1">&nbsp;&nbsp;
+			<input type="submit" name="submit" value="提交" />	
+			<input type="button" name="unlock" value="解除锁定" onClick="self.location.href='{%$scriptname%}?server={%$servername%}&unlock=true'"/ style="margin-left:330px">	
+		</form>
+		<br>
+	</div>
+	<div>&nbsp;&nbsp;清理数据表结构：http://{%$servername%}/include/plugins/cleartb.php?mod=数据对象</div>
+	<hr style="clear:both;">
+	<div id="content"><pre>{%$rs|default:''%}</pre></div>	
+	<br>
+	<br>
+</body>
+</html>
