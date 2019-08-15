@@ -19,7 +19,7 @@ class debug {
 	}
 }
 
-//核心思想：  找到靠近的数组后，后指针为前指针，前指针+1
+//核心思想：  右指针+1，直到遇到大于S的数字后，前面左指针+1，直到S小于数字，在右指针+1
 class problem_406{
 	function __construct($array,$s) {
 		//给出的数组
@@ -28,104 +28,69 @@ class problem_406{
 		//滑动窗口
 		$this->window=[0];
 		
-		//记录指针
-		$this->pool=[];
-		
 		//记录长度
 		$this->length=[];
 		
 		//给出的最大值
 		$this->s=$s;
 		
-		//后指针
-		$this->b_index=0;
+		//左指针
+		$this->l_index=0;
 		
-		//前指针
-		$this->f_index=0;
-		
-		//最大值key
-		$this->maxValue_key=[];
-		
-		//最短数组key
-		$this->minLength_key=[];
+		//右指针
+		$this->r_index=0;
 	}
 	
 	function start(){
 		foreach($this->array as $k=>$v){
-			//在滑动窗口范围内
-			if($this->window[$this->b_index]+$v < $this->s){
-				//重新窗口
-				$this->window[$this->b_index]+=$v;
-				
-				//记录指针
-				$this->pool[$this->b_index]=[$this->b_index,$this->f_index];
+			if($v>=$this->s){
+				return 1;
 			}
-			//超出窗口
-			else{
+			
+			//记录窗口
+			$tmp_window=$this->window[$this->l_index];
+			$this->window[$this->l_index]+=$v;
+			
+			//超出窗口情况
+			if($tmp_window+$v >= $this->s){
 				//记录长度
-				$this->length[$this->b_index]=$this->f_index-$this->b_index;
+				$this->length[]=$this->r_index-$this->l_index+1;
 				
-				//后指针为前指针
-				$this->b_index=$this->f_index-1;
-				
-				//重新窗口
-				$this->window[$this->b_index]=$this->array[$this->b_index]+$v;
-				
-				//记录指针
-				$this->pool[$this->b_index]=[$this->b_index,$this->f_index];
+				//记录前指针前面所有值的和
+				for($i=$this->l_index+1;$i<=$this->r_index;$i++){
+					//记录窗口
+					$this->window[$i]=$this->window[$i-1]-$this->array[$i-1];
+					
+					//右指针+1
+					$this->l_index++;
+					
+					//小于值跳过
+					if($this->window[$i]<$this->s){
+						break;
+					}else{
+						//记录长度
+						$this->length[]=$this->r_index-$i+1;
+					}
+				}
 			}
 			
 			//前指针+1
-			$this->f_index++;
+			$this->r_index++;
 		}
 		
-		//获取靠近值的key
-		foreach($this->window as $k=>$v){
-			if($v < $this->s){
-				continue;
-			}
-			if(empty($sum_max)){
-				$sum_max=$v;
-			}
-			if($sum_max>$v){
-				$sum_max=$v;
-			}
-		}
-		
-		//所有数组值总和小于s
-		if(empty($sum_max)){
+		if(empty($this->length)){
 			return -1;
 		}
 		
-		foreach($this->window as $k=>$v){
-			if($v==$sum_max){
-				$this->maxValue_key[]=$k;
-			}
-		}
-		
-		//选出最短的数字key
-		foreach($this->maxValue_key as $v){
-			$this->minLength_key[$v]=$this->pool[$v][1]-$this->pool[$v][0];
-		}
-		$min_key = array_keys($this->minLength_key, min($this->minLength_key));
-		
-		//返回长度
-		return $this->pool[$min_key[0]][1]-$this->pool[$min_key[0]][0]+1;
-		
-		//选出区间数组值
-		foreach($this->pool[$min_key[0]] as $v){
-			$rs[]=$this->array[$v];
-		}
-		return $rs;
+		return min($this->length);
 	}
 }
 
 //一个数组中，找出“最短”连续数组 大于等于一个数字
-//$array=[1,3,1,2,5,6,5];			//[5,6]
-//$array=[1,3,1,2,5,8,6,7];				//[5,8]
-//$array=[1,2,3,4];			//-1
-
-$s=11;
+//$array=[4,8,6,4,2,3,1,2,5,2,4];$s=11;			//2
+//$array=[100,50,99,50,100,50,99,50,100,50];$s=250;		//4
+//$array=[2,3,1,2,4,3];$s=7;			//2
+$array=[1,2,3,4,5,6,1,1,1,1];$s=15;				//3
 
 $obj=new problem_406($array,$s);
 $rs=$obj->start();
