@@ -10,17 +10,11 @@ DS = DSim.DataSimulator()
 # repeatedly to simulate the newly
 # received information
 
-#newData = DS.getNewData()
+newData = DS.getNewData()
 #print(newData[0])
 #exit()
 
-for i in range(6):
-    newData = DS.getNewData()
-    print(newData[0])
-    time.sleep(1)   
-
 #print(newData)
-exit()
 
 #
 # This is list of dict types, each of them of the form
