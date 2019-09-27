@@ -128,8 +128,7 @@ class blockchian:
             tree_hash=self.find_tree_path(tree,hash)
 
             print("=========merkle tree proof=========")
-            print("message => "+str(self.sample))
-            print("tree_leef => "+str(hash))
+            print("tree_leef => "+str(self.sample)+" => "+str(hash))
             for v in self.tree_proof:
                 print(v)
             print("tree_root => "+str(tree_hash))
