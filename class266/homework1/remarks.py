@@ -45,6 +45,9 @@ d = newData[20]
 
 import ECC
 
+print (ECC.hash("eb62727ea5a42fd8c1ed640251f7b071"+"33fcb388de365a330bd24837399e09a5"))
+exit()
+
 # Let's check whether this signature is correct. The verify function is
 #
 #   ECC.verify(pubKeyString, message, signature)
