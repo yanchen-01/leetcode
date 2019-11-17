@@ -59,7 +59,7 @@ contract Casino {
         // Within the timeframe
         require(block.timestamp < start+buyPeriod);
         // Correct amount
-        require(1 wei == msg.value);
+        require(10 ether == msg.value);
         // 1 entry per address
         require(_tickets[msg.sender] == 0);
         _tickets[msg.sender] = hash;
@@ -102,7 +102,7 @@ contract Casino {
         //require(block.timestamp < start+buyPeriod+verifyPeriod+checkPeriod);
         if (!hasWinner) {
             winner = _verified[winnerSeed % _verified.length];
-            _winnings[winner] = _verified.length-3 wei;
+            _winnings[winner] = 30 ether;
             hasWinner = true;
         }
         return msg.sender == winner;
