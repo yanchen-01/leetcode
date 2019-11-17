@@ -7,6 +7,7 @@ contract Casino {
     uint private buyPeriod = 1000;
     uint private verifyPeriod = 100;
     uint private checkPeriod = 100;
+    string private name = "123";
     
     mapping(address => uint) private _tickets;
     mapping(address => uint) private _winnings;
@@ -19,7 +20,8 @@ contract Casino {
     address private winner;
     
     constructor()
-        public {
+        public
+        payable{
         start = block.timestamp;    
     }
     
@@ -42,6 +44,14 @@ contract Casino {
         return uint(keccak256(source_b));
     }
     
+    function toBytes(uint256 x) 
+        public
+        pure 
+        returns (bytes memory b) {
+        b = new bytes(32);
+        assembly { mstore(add(b, 32), x) }
+    }
+    
     function buyTicket(uint hash)
         public
         payable
@@ -49,7 +59,7 @@ contract Casino {
         // Within the timeframe
         require(block.timestamp < start+buyPeriod);
         // Correct amount
-        require(1 ether == msg.value);
+        require(1 wei == msg.value);
         // 1 entry per address
         require(_tickets[msg.sender] == 0);
         _tickets[msg.sender] = hash;
@@ -61,8 +71,8 @@ contract Casino {
         public
         returns (bool) {
         // Within the timeframe
-        require(block.timestamp >= start+buyPeriod);
-        require(block.timestamp < start+buyPeriod+verifyPeriod);
+      //  require(block.timestamp >= start+buyPeriod);
+    //    require(block.timestamp < start+buyPeriod+verifyPeriod);
         // Has a valid entry
         require(_tickets[msg.sender] > 0);
         // Validate hash
@@ -72,15 +82,27 @@ contract Casino {
         _verified.push(msg.sender);
     }
     
+    function setName(string memory newName) public {
+        name = newName;
+    }
+
+    
+    function getName() 
+        public
+        view
+        returns (string memory){
+            return name;
+    }
+    
     function checkWinner()
         public
         returns (bool) {
         // Within the timeframe
-        require(block.timestamp >= start+buyPeriod+verifyPeriod);
-        require(block.timestamp < start+buyPeriod+verifyPeriod+checkPeriod);
+        //require(block.timestamp >= start+buyPeriod+verifyPeriod);
+        //require(block.timestamp < start+buyPeriod+verifyPeriod+checkPeriod);
         if (!hasWinner) {
             winner = _verified[winnerSeed % _verified.length];
-            _winnings[winner] = _verified.length-10 ether;
+            _winnings[winner] = _verified.length-3 wei;
             hasWinner = true;
         }
         return msg.sender == winner;
@@ -89,7 +111,7 @@ contract Casino {
     function claim()
         public {
         // Has winnings to claim
-        require(_winnings[msg.sender] > 0);
+        //require(_winnings[msg.sender] > 0);
         uint claimAmount = _winnings[msg.sender];
         _winnings[msg.sender] = 0;
         msg.sender.transfer(claimAmount);        
