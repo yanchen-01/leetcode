@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Hello World</title>
+  <script src="web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+  <script language="javascript" type="text/javascript" src="abi.js"></script>
+  <script src="angular.min.js"></script>
+	<script src="angular-animate.min.js"></script>
+	<script src="angular-ui-router.min.js"></script>
+	<script src="jquery.min.js"></script>
+</head>
+<body>
+  <div ng-app="casino">
+    <div ui-view class="main">
+
+
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+  var app = angular.module('casino', ['ui.router', 'ngAnimate']);
+
+  //模板
+	app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
+		$stateProvider
+			.state("/user", {
+				url: "/user:edit",
+				templateUrl: "user.html",
+				controller: "user"
+			})
+		$urlRouterProvider.otherwise("/user");
+		$qProvider.errorOnUnhandledRejections(false);
+	});
+
+
+  app.controller('user', ['$scope', '$stateParams', '$state','$window', function($scope, $stateParams, $state, $window) {
+    const contractAddress = "0x00894B6a31A33b9184333203951E59C2c33a1EAf";
+    window.web3 = new Web3(ethereum);
+    contract = new web3.eth.Contract(abi, contractAddress);
+
+    //导入用户
+    $scope.address="";
+
+    //获取协议数据
+    $scope.getMessage=function(){
+      contract.methods.getMessage().call().then(function(response) {
+        document.getElementById("message").innerHTML = response;
+        console.log($scope.message);
+      });
+    }
+
+    //获取banlance
+    $scope.check_balance=function(){
+      if($scope.address!=""){
+        web3.eth.getBalance($scope.address, (err, wei) => {
+          balance = web3.utils.fromWei(wei, 'ether')
+          document.getElementById("balance").innerHTML = balance;
+        })
+      }
+    }
+  
+  }]);
+</script>
