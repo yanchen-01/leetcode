@@ -39,20 +39,12 @@
 
 
   app.controller('user', ['$scope', '$stateParams', '$state','$window', function($scope, $stateParams, $state, $window) {
-    const contractAddress = "0x00894B6a31A33b9184333203951E59C2c33a1EAf";
+    const contractAddress = "0x2376BE16c5085b27FF3D2Cb912f1225223e273C8";
     window.web3 = new Web3(ethereum);
     contract = new web3.eth.Contract(abi, contractAddress);
 
     //导入用户
     $scope.address="";
-
-    //获取协议数据
-    $scope.getMessage=function(){
-      contract.methods.getMessage().call().then(function(response) {
-        document.getElementById("message").innerHTML = response;
-        console.log($scope.message);
-      });
-    }
 
     //获取banlance
     $scope.check_balance=function(){
@@ -62,6 +54,22 @@
           document.getElementById("balance").innerHTML = balance;
         })
       }
+    }
+
+
+    ethereum.enable();
+
+    //设定message信息
+    $scope.setMessage=function(){
+      console.log(1);
+      contract.methods.setMessage("test").send({from: '0x78FFC1A6777eB57B089acd20a79DaFaE85270799'});
+    }
+
+    //获取协议数据
+    $scope.getMessage=function(){
+      contract.methods.getMessage().call({from: '0x78FFC1A6777eB57B089acd20a79DaFaE85270799'}).then(function(response) {
+        document.getElementById("message").innerHTML = response;
+      });
     }
   
   }]);
