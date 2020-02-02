@@ -2,5 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="/home/sida/workspace/leetcode/cryptoUtil-1.0.jar"/>
+	<classpathentry kind="lib" path="/home/sida/workspace/leetcode/cryptoUtil-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
