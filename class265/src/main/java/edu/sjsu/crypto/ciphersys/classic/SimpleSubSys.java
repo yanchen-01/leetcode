@@ -18,22 +18,18 @@ public class SimpleSubSys extends SimpleSubAbs {
 	public SimpleSubSys(int key) {
 		encryptionTable = new HashMap<Character,Character>();
 		decryptionTable = new HashMap<Character,Character>();
-		key = key % 26;
 		
 		String alpha = "abcdefghijklmnopqrstuvwxyz";
 		CSR alpha_csr = CSR.constructFromText(alpha);
 		
 		CSR encryption = alpha_csr.rotateLeft(key);
-		//encryptionTable = makeLookupTable(alpha_csr,encryption);
+		encryptionTable = makeLookupTable(alpha_csr,encryption);
 		
 		CSR decryption = alpha_csr.rotateRight(key);
-		//decryptionTable = makeLookupTable(alpha_csr,decryption);
-		
-		System.out.println(alpha_csr);
-		//System.out.println();
-		
+		decryptionTable = makeLookupTable(alpha_csr,decryption);
 	}
 
+	//using the encryptionTable to encode the plantext
 	public String encrypt(String plaintext) {
 		plaintext = plaintext.toLowerCase();
 		char[] tmp_plaintext = plaintext.toCharArray();
@@ -50,6 +46,7 @@ public class SimpleSubSys extends SimpleSubAbs {
 		return rs.toUpperCase();
 	}
 
+	//using the decryptionTable to decode the plantext
 	public String decrypt(String ciphertext) {
 		ciphertext = ciphertext.toLowerCase();
 		char[] tmp_ciphertext = ciphertext.toCharArray();
@@ -64,10 +61,6 @@ public class SimpleSubSys extends SimpleSubAbs {
 		}
 		
 		return rs;
-	}
-
-	public void printKey() {
-		
 	}
 }
 

@@ -8,13 +8,12 @@ class SimpleSubSysTest {
 
 	@Test
 	void test() {
-		int key = 5;
+		int key = 15;
 		SimpleSubSys sys = new SimpleSubSys(key);
-		String plaintext = "defend , the . ? east wall of the castle";
+		String plaintext = "my name is sida, I like this class!";
 		System.out.println("Ciphertext = ['" + sys.encrypt(plaintext)+ "']");
-		String ciphertext = "IJKJSI YMJ JFXY BFQQ TK YMJ HFXYQJ";
+		String ciphertext = "BN CPBT XH HXSP, X AXZT IWXH RAPHH!";
 		System.out.println("Recovered Plaintext = [" + sys.decrypt(ciphertext)+ "]");
-		
 	}
 
 }
