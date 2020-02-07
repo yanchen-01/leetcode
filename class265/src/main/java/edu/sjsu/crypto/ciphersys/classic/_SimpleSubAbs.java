@@ -18,8 +18,11 @@ import edu.sjsu.yazdankhah.crypto.util.shiftregisters.CSR;
 		Send your key and the ciphertext to your customer.
 		Your customer is required to decrypt your ciphertext by her/his program for double checking both programs.
 		Mention your customer's name in your class document.
+		
+		
+	Customer: Yan Chen
  */
-public abstract class SimpleSubAbs {
+public abstract class _SimpleSubAbs {
 	//Two hash-maps serve as the lookup tables for encryption and decryption
 	protected static Map<Character, Character> encryptionTable;
 	protected static Map<Character, Character> decryptionTable;
@@ -29,9 +32,9 @@ public abstract class SimpleSubAbs {
 	protected abstract String decrypt(String ciphertext);
 	
 	//This method combines two CSR data structures and return a hash-map that can be used as a lookup table.
-	protected static Map<Character, Character> makeLookupTable(CSR csr1, CSR csr2) {
-		return null;
-	}
+	//protected static Map<Character, Character> makeLookupTable(CSR csr1, CSR csr2) {
+		//return null;
+	//}
 }
 
 

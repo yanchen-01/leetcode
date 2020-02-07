@@ -1,47 +1,37 @@
 package edu.sjsu.crypto.ciphersys.classic;
 
 import java.util.*;
-import edu.sjsu.yazdankhah.crypto.util.cipherutils.*;
+
+import edu.sjsu.yazdankhah.crypto.util.abstracts.SimpleSubAbs;
 import edu.sjsu.yazdankhah.crypto.util.shiftregisters.CSR;
 
-public class SimpleSubSys extends SimpleSubAbs {
 
-	public static void main(String[] args) {
-		//encrypt
-		/*
-		int key = 5;
-		SimpleSubSys sys = new SimpleSubSys(key);
-		String plaintext = "defend , the . ? east wall of the castle";
-		System.out.println("Ciphertext = ['" + sys.encrypt(plaintext)+ "']");
-		String ciphertext = "IJKJSI YMJ JFXY BFQQ TK YMJ HFXYQJ";
-		System.out.println("Recovered Plaintext = [" + sys.decrypt(ciphertext)+ "]");
-		*/
-		
-		int key = 15;
-		SimpleSubSys sys = new SimpleSubSys(key);
-		String plaintext = "my name is sida, I like this class!";
-		System.out.println("Ciphertext = ['" + sys.encrypt(plaintext)+ "']");
-		String ciphertext = "CD RAPHH RPCRTAAPIXDC";
-		System.out.println("Recovered Plaintext = [" + sys.decrypt(ciphertext)+ "]");
-	}
+/**
+ * Parameterized Caesar Cipher
+ * @author sida
+   Customer: Yan Chen
+ */
+public class SimpleSubSys extends SimpleSubAbs {
+	protected static Map<Character, Character> encryptionTable;
+	protected static Map<Character, Character> decryptionTable;
 	
 	public SimpleSubSys(int key) {
-		key = key % 26;
-		char[] alpha = ("abcdefghijklmnopqrstuvwxyz" + "abcdefghijklmnopqrstuvwxyz").toCharArray();
-		
 		encryptionTable = new HashMap<Character,Character>();
 		decryptionTable = new HashMap<Character,Character>();
+		key = key % 26;
 		
-		for (int i = 0; i < alpha.length; i++) {
-			encryptionTable.put(alpha[i], alpha[i+key]);
-			decryptionTable.put(alpha[i+key], alpha[i]);
-			if(i == 25) {
-				break;
-			}
-		}
+		String alpha = "abcdefghijklmnopqrstuvwxyz";
+		CSR alpha_csr = CSR.constructFromText(alpha);
 		
-		System.out.println(encryptionTable);
-		System.out.println(decryptionTable);
+		CSR encryption = alpha_csr.rotateLeft(key);
+		//encryptionTable = makeLookupTable(alpha_csr,encryption);
+		
+		CSR decryption = alpha_csr.rotateRight(key);
+		//decryptionTable = makeLookupTable(alpha_csr,decryption);
+		
+		System.out.println(alpha_csr);
+		//System.out.println();
+		
 	}
 
 	public String encrypt(String plaintext) {
@@ -76,6 +66,9 @@ public class SimpleSubSys extends SimpleSubAbs {
 		return rs;
 	}
 
+	public void printKey() {
+		
+	}
 }
 
 
