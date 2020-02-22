@@ -5,6 +5,7 @@ import edu.sjsu.yazdankhah.crypto.util.cipherutils.ConversionUtil;
 import edu.sjsu.yazdankhah.crypto.util.primitivedatatypes.Bit;
 import edu.sjsu.yazdankhah.crypto.util.shiftregisters.LFSR;
 import edu.sjsu.yazdankhah.crypto.util.cipherutils.Function;
+import edu.sjsu.yazdankhah.crypto.util.cipherutils.StringUtil;
 
 /**
  * Steam Ciphers A5/1
@@ -19,6 +20,8 @@ public class A5_1Sys extends A5_1Abs {
 	
 	public A5_1Sys(String pass) {
 		String bin_pass = ConversionUtil.textToBinStr(pass);
+		bin_pass = StringUtil.rightTruncRightPadWithZeros(bin_pass, 64);
+		
 		x_register = LFSR.constructFromBinStr(bin_pass.substring(0,19), new int[] {13,16,17,18});
 		y_register = LFSR.constructFromBinStr(bin_pass.substring(19,41), new int[] {20,21});
 		z_register = LFSR.constructFromBinStr(bin_pass.substring(41,64), new int[] {7,20,21,22});
@@ -36,7 +39,6 @@ public class A5_1Sys extends A5_1Abs {
 	}
 	
 	public String decrypt(String ciphertext) {
-		ciphertext = ciphertext.toLowerCase();
 		String ciphertext_binString = ConversionUtil.hexStrToBinStr(ciphertext);
 		Bit[] bit_ciphertext_array = ConversionUtil.binStrToBitArr(ciphertext_binString);
 		for (int i = 0; i < bit_ciphertext_array.length; i++) {

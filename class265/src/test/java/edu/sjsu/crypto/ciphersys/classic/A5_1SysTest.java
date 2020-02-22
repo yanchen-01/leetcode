@@ -18,15 +18,13 @@ class A5_1SysTest {
 		System.out.println("Recovered Plaintext = [" + sys.decrypt(ciphertext)+ "]");
 		*/
 		
-		
 		String plaintext = "My name is sida, I like this class!";
-		String ciphertext = "770c48ba9770f1d3139236d3b3442a75ca51e82ba63e6346f14011a9464d076547f18362e5";
-		String pass = "NoDayOff";
+		String ciphertext = "4d79206e616d6520697320736964612c2049206c696b65207468697320636c61737321";
+		String pass = "1";
 		
 		A5_1Sys sys = new A5_1Sys (pass);
 		//System.out.println("ciphertext = [" + sys.encrypt(plaintext)+ "]");
 		System.out.println("Recovered Plaintext = [" + sys.decrypt(ciphertext)+ "]");
-		
 	}
 
 }
