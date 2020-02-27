@@ -46,7 +46,7 @@ public class PkzipSys extends PkzipAbs {
 			update(word_x,word_y,word_z,ubit_ciphertext_array[i]);
 		}
 		
-		String plaintext=ConversionUtil.ubyteArrToHexStr(ubit_ciphertext_array);
+		String plaintext=ConversionUtil.ubyteArrToText(ubit_ciphertext_array);
 		return plaintext;
 	}
 	
@@ -65,7 +65,7 @@ public class PkzipSys extends PkzipAbs {
 		CRC(word_X,ubyte_p);
 		
 		//(Y + ⟨X⟩24...31) *134775813 + 1 (mod 232)
-		word_Y = word_Y.addMod2p32(Word.constructFromUByte((word_X.byteAt(3)))).multiplyMod2p32(UPDATE_CONST_WORD).addMod2p32(Word.ONE_WORD);            
+		word_Y = word_Y.addMod2p32M(Word.constructFromUByte((word_X.byteAt(3)))).multiplyMod2p32M(UPDATE_CONST_WORD).addMod2p32M(Word.ONE_WORD);            
 		
 		//CRC(Z, ⟨Y⟩0...7)
 		CRC(word_Z,word_Y.byteAt(0));
