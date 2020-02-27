@@ -1,4 +1,4 @@
-package edu.sjsu.crypto.ciphersys.classic;
+package edu.sjsu.crypto.ciphersys.stream;
 
 import edu.sjsu.yazdankhah.crypto.util.abstracts.A5_1Abs;
 import edu.sjsu.yazdankhah.crypto.util.cipherutils.ConversionUtil;

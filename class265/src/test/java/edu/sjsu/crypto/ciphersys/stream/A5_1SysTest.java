@@ -1,4 +1,4 @@
-package edu.sjsu.crypto.ciphersys.classic;
+package edu.sjsu.crypto.ciphersys.stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
